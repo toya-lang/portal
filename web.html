@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memahami Ukuran Penyimpanan TEXT MySQL - SMK Negeri 1 Rasau Jaya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #e8e9f2 100%);
+            min-height: 100vh;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* Modern Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #555879, #7a7d9e);
+            padding: 15px 0;
+            box-shadow: 0 8px 32px rgba(85, 88, 121, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-item a:hover::after {
+            width: 80%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(85, 88, 121, 0.1);
+            overflow: hidden;
+            margin: 40px 0;
+            transition: transform 0.3s ease;
+            border: 2px solid #555879;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(85, 88, 121, 0.2);
+        }
+
+        .article-header {
+            background: linear-gradient(135deg, #555879, #7a7d9e);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .article-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            border-bottom: 3px solid #555879;
+        }
+
+        .article-image:hover {
+            transform: scale(1.02);
+        }
+
+        .article-content {
+            padding: 40px;
+            background: white;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #555879;
+        }
+
+        .category {
+            background: #555879;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .date {
+            color: #555879;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .article-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #2c3e50;
+            text-align: justify;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(85, 88, 121, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #555879;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 5px solid #555879;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(85, 88, 121, 0.1);
+        }
+
+        .highlight-title {
+            font-weight: 700;
+            color: #555879;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .footer {
+            background: #555879;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 20px;
+        }
+
+        .footer p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .article-title {
+                font-size: 2rem;
+            }
+
+            .article-content {
+                padding: 25px;
+            }
+
+            .article-text {
+                font-size: 1rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">SMK Negeri 1 Rasau Jaya</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index1.html#home">Home</a></li>
+                <li class="nav-item"><a href="index1.html#about">Tentang</a></li>
+                <li class="nav-item"><a href="index1.html#products">Produk</a></li>
+                <li class="nav-item"><a href="index1.html#gallery">Galeri</a></li>
+                <li class="nav-item"><a href="index1.html#contact">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="article-card">
+            <div class="article-header">
+                <h1 class="article-title">Memahami Ukuran Penyimpanan untuk Tipe Data TEXT MySQL</h1>
+                <p class="article-subtitle">Panduan Lengkap untuk Developer Database</p>
+            </div>
+            
+            <img src="gambar/artikel 3db.jpg" alt="Database MySQL TEXT Type" class="article-image">
+            
+            <div class="article-content">
+                <div class="article-meta">
+                    <span class="category">Database</span>
+                    <span class="date">15 Januari 2024</span>
+                </div>
+                
+                <div class="article-text">
+                    <p>TEXTobjek data, sesuai dengan namanya, berguna untuk menyimpan string
+                    teks berbentuk panjang dalam database MySQL. Keempat TEXTtipe objek data
+                    dibuat untuk menyimpan dan menampilkan sejumlah besar informasi
+                    dibandingkan dengan tipe objek data lainnya yang berguna untuk tugas
+                    seperti menyortir dan mencari kolom atau menangani opsi berbasis
+                    konfigurasi yang lebih kecil untuk proyek yang lebih besar. Objek yang
+                    berbeda TEXTmenawarkan rentang ruang penyimpanan dari 1 byte hingga 4 GB
+                    dan tidak dirancang untuk menyimpan nilai komputasi. Biasanya ini
+                    digunakan untuk menyimpan deskripsi produk untuk situs penjualan,
+                    ringkasan properti untuk database properti, dan teks artikel panjang di
+                    situs berita. TEXTobjek paling baik digunakan ketika VARCHARobjek data
+                    berbasis string lainnya tidak cukup untuk menangani penyimpanan sejumlah
+                    informasi yang diinginkan. Namun, tipe terkecil TEXT, TINYTEXT, memiliki
+                    panjang karakter yang sama dengan VARCHAR. TEXTobjek membedakan dirinya
+                    dari jenis penyimpanan string lainnya dengan menghilangkan persyaratan
+                    untuk menentukan panjang penyimpanan, tidak menghapus byte saat dipilih,
+                    dan tidak mengisi ruang karakter yang tidak terpakai untuk penyimpanan
+                    disk yang efisien. Karena TEXTobjek tidak disimpan dalam memori server,
+                    objek memerlukan overhead data untuk pengambilan. Ukuran berikut
+                    mengasumsikan database menggunakan pengkodean UTF-8.</p>
+                </div>
+                
+                <div class="highlight-box">
+                    <div class="highlight-title">💡 Tips Penting</div>
+                    <p>Penggunaan tipe data TEXT sangat direkomendasikan untuk konten artikel, deskripsi produk, atau teks panjang lainnya yang melebihi batas VARCHAR(255).</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 Copyright SMK Negeri 1 Rasau Jaya. All Rights Reserved</p>
+        </div>
+    </div>
+</body>
+</html>

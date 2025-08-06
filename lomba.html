@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memahami Ukuran Penyimpanan TEXT MySQL - SMK Negeri 1 Rasau Jaya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f6fa 0%, #e8e9f2 100%);
+            min-height: 100vh;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* Modern Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #555879, #7a7d9e);
+            padding: 15px 0;
+            box-shadow: 0 8px 32px rgba(85, 88, 121, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-item a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-item a:hover::after {
+            width: 80%;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(85, 88, 121, 0.1);
+            overflow: hidden;
+            margin: 40px 0;
+            transition: transform 0.3s ease;
+            border: 2px solid #555879;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(85, 88, 121, 0.2);
+        }
+
+        .article-header {
+            background: linear-gradient(135deg, #555879, #7a7d9e);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .article-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .article-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            border-bottom: 3px solid #555879;
+        }
+
+        .article-image:hover {
+            transform: scale(1.02);
+        }
+
+        .article-content {
+            padding: 40px;
+            background: white;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #555879;
+        }
+
+        .category {
+            background: #555879;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .date {
+            color: #555879;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .article-text {
+            font-size: 1.1rem;
+            line-height: 1.9;
+            color: #2c3e50;
+            text-align: justify;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(85, 88, 121, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #555879;
+        }
+
+        .footer {
+            background: #555879;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+            border-radius: 20px;
+        }
+
+        .footer p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .article-title {
+                font-size: 2rem;
+            }
+
+            .article-content {
+                padding: 25px;
+            }
+
+            .article-text {
+                font-size: 1rem;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modern Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">SMK Negeri 1 Rasau Jaya</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index1.html#home">Home</a></li>
+                <li class="nav-item"><a href="index1.html#about">Tentang</a></li>
+                <li class="nav-item"><a href="index1.html#products">Produk</a></li>
+                <li class="nav-item"><a href="index1.html#gallery">Galeri</a></li>
+                <li class="nav-item"><a href="index1.html#contact">Kontak</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="article-card">
+            <div class="article-header">
+                <h1 class="article-title">Pembagian Hadiah Hasil Perlombaan setelah Upacara Bendera Hari Senin</h1>
+            </div>
+            
+            <img src="gambar/lomba.jpg" alt="lomba" class="article-image">
+            
+            <div class="article-content">
+                <div class="article-meta">
+                    <span class="category">Pembagian Hadiah</span>
+                    <span class="date">15 Januari 2024</span>
+                </div>
+                
+                <div class="article-text">
+                    <p><br>  Suasana di SMKN 1 Rasau Jaya semakin meriah pada hari Senin pagi tadi setelah upacara bendera rutin.
+        Hal tersebut dikarenakan acara pembagian hadiah untuk para pemenang perlombaan yang telah diadakan 
+        beberapa waktu lalu. Antusiasme dan kegembiraan tampak jelas terpancar dari wajah-wajah siswa dan 
+        guru yang hadir di acara tersebut.</br></p>
+
+        <p><br> Pada perlombaan yang telah diadakan sebelumnya, siswa-siswa SMKN 1 Rasau Jaya telah berkompetisi dalam 
+          berbagai bidang, mulai dari akademik hingga olahraga. Beberapa di antaranya adalah lomba cerdas cermat, 
+          lomba tari P5, estafet karet, estafet karung, dan sangkut kawat bakul. Para peserta telah menunjukkan 
+          dedikasi dan kerja keras mereka untuk meraih prestasi di setiap kategori.</br></p>
+
+          <br>Berbagai hadiah seperti piagam penghargaan, medali, dan juga hadiah uang tunai diberikan kepada para pemenang.
+          Tidak hanya itu, momen ini juga menjadi kesempatan yang baik bagi para siswa untuk saling berbagi kebahagiaan
+            dan menjalin ikatan persahabatan yang lebih erat.</br>
+
+          <br>Acara pembagian hadiah ini tidak hanya menjadi penghargaan bagi para pemenang, tetapi juga menginspirasi siswa 
+          lainnya untuk terus berusaha dan mengembangkan potensi mereka. Dengan semangat yang tinggi, diharapkan SMKN 1 
+          Rasau Jaya akan terus menjadi tempat berkembangnya bakat-bakat terbaik di berbagai bidang.</br>
+
+          <br>Dengan semangat kompetisi yang sehat dan kerja keras, SMKN 1 Rasau Jaya mengajarkan nilai-nilai positif kepada 
+          para siswa tentang pentingnya usaha dan dedikasi dalam mencapai tujuan. Upacara pembagian hadiah ini tidak hanya 
+          sebagai ajang penghargaan, tetapi juga sebagai bukti nyata bahwa setiap usaha keras tidak akan pernah sia-sia.</br>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2023 Copyright SMK Negeri 1 Rasau Jaya. All Rights Reserved</p>
+        </div>
+    </div>
+</body>
+</html>
